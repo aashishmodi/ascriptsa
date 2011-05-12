@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using developwithpassion.specifications.rhinomocks;
 using Machine.Specifications;
 using nothinbutdotnetstore.web.application.catalogbrowsing;
@@ -15,18 +16,22 @@ namespace nothinbutdotnetstore.specs
 
     public class when_run : concern
     {
-      Establish c = () =>
-      {
-        request = fake.an<IContainRequestInformation>();
-      };
+        Establish c = () =>
+        {
+            request = fake.an<IContainRequestInformation>();
+        };
 
-      Because b = () =>
-        sut.run(request);
+        Because b = () =>
+        {
+            sut.run(request);
+            departments = sut.GetDepartments();
+        };
 
+        It should_return_a_list_of_departments = () =>
+            departments.ShouldNotBeNull();
 
-      It should_blah = () => { };
-
-      static IContainRequestInformation request;
+        static IContainRequestInformation request;
+        static IEnumerable<IDepartment> departments;
     }
   }
 }
